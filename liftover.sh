@@ -26,3 +26,6 @@ plink --file $path/Build36 \
 
 plink --ped lifted.ped --map good_lifted.map --recode --out Build38
 
+plink --file ROSMAP.Affy.b38 --missing
+mv plink.lmiss ./plink.lmiss.after.lift
+mv plink.imiss ./plink.imiss.after.lift
