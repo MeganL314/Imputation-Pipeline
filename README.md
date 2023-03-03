@@ -1,6 +1,6 @@
 # Imputation Pipeline
 
-Fri Mar  3 09:57:31 EST 2023
+Fri Mar  3 09:59:52 EST 2023
 
-## This pipeline is to set up genotype array files for the Michigan Imputation Server
+## This pipeline is for QC and liftover of  genotype array files for the Michigan Imputation Server
 *Megan Lynch* 
