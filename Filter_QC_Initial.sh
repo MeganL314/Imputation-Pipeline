@@ -15,8 +15,8 @@ plink --bfile $lifted_path/$geno \
       --make-bed --out $geno_no_AT_CG
 
 #Perform pre-imputation QC - remove monomorphic SNPs, SNPs with high
-#missingness, SNPs not in HWE
+#missingness, SNPs not in HWE, samples with high missingness
 plink --bfile $geno_no_AT_CG \
       --maf 0.000001 --geno 0.05 --hwe 0.000001 \
-      --mind 0.2
+      --mind 0.2 \
       --make-bed --out $geno_pre_qc
