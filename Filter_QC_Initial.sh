@@ -1,6 +1,7 @@
 #$ -cwd
 module load plink/1.90b6.6
 module load bcftools
+module load R
 
 lifted_path=/dcs04/mathias/data/mlynch/ArrayData/Affymetrix/liftover
 geno=ROSMAP.Affy.b38
@@ -10,22 +11,22 @@ plink --file $lifted_path/$geno \
       --make-bed --out $lifted_path/$geno
 
 #Remove strand ambiguous SNPs
-cat get_strand_amb_SNPs.R | R --vanilla
+cat get_strand_ambiguous_SNPs.R | R --vanilla
 plink --bfile $lifted_path/$geno \
       --exclude tmp_strand_remove_snps.txt \
-      --make-bed --out $geno_no_AT_CG
+      --make-bed --out ${geno}_no_AT_CG
 
 #Perform pre-imputation QC - remove monomorphic SNPs, SNPs with high
 #missingness, SNPs not in HWE, samples with high missingness
-plink --bfile $geno_no_AT_CG \
+plink --bfile ${geno}_no_AT_CG \
       --maf 0.000001 --geno 0.05 --hwe 0.000001 \
       --mind 0.2 \
-      --make-bed --out $geno_pre_qc
+      --make-bed --out ${geno}_pre_qc
 
 
 
 #create vcf files
-plink --bfile $geno_pre_qc --recode vcf --out $geno_pre_qc
+plink --bfile ${geno}_pre_qc --recode vcf --out ${geno}_pre_qc
 
 
 #add 'chr' to vcf files
@@ -35,7 +36,7 @@ awk '{
         else if(match($0,/(##contig=<ID=)(.*)/,m))
             print m[1]"chr"m[2];
         else print $0 
-      }' $geno_pre_qc.vcf > $geno_with_chr.vcf
+      }' ${geno}_pre_qc.vcf > ${geno}_with_chr.vcf
 
 
 
